@@ -1,4 +1,4 @@
-import { Patient } from "../types";
+import { Patient, Type } from "../types";
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { apiBaseUrl } from "../constants";
@@ -31,9 +31,17 @@ const IndividualPatientPage = ({ patientId }: { patientId: string | undefined })
 
   const submitNewEntry = async (values: EntryFormValues) => {
     try {
+      const entry = {
+        ...values,
+        sickLeave: values.type === Type.OccupationalHealthcare ? { startDate: values.sickLeaveSD, endDate: values.sickLeaveED } : undefined ,
+        discharge: values.type === Type.Hospital ? { date: values.dischargeDate, criteria: values.dischargeCriteria } : undefined ,
+        healthCheckRating: values.type === Type.HealthCheck ? values.healthCheckRating : undefined ,
+        employerName: values.type === Type.OccupationalHealthcare ? values.employerName : undefined ,
+      };
+
       const { data: newPatient } = await axios.post<Patient>(
         `${apiBaseUrl}/patients/${id}/entries`,
-        values
+        entry
       );
       dispatch({ type: "ADD_PATIENT", payload: newPatient });
       closeModal();
