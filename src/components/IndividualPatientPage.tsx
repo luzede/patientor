@@ -35,6 +35,31 @@ const IndividualPatientPage = ({ patientId }: { patientId: string | undefined })
       <p>Gender: {patient.gender}</p>
       <p>Occupation: {patient.occupation}</p>
       <p>SSN: {patient.ssn}</p>
+      
+      <div>
+        <p><b>entries</b></p>
+        {patient.entries.map((e) => {
+
+          return (
+            <div key={e.id}>
+              <p>{e.date}: <i>{e.description}</i></p>
+              <ul>
+                {e.diagnosisCodes
+                ? e.diagnosisCodes.map((code, index) => {
+                  return(
+                    <li key={index}>
+                      {code}
+                    </li>
+                  );
+                })
+                : null
+              }
+              </ul>
+            </div>
+          );
+        })}
+      </div>
+
     </div>
   );
 };
