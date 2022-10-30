@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { apiBaseUrl } from "../constants";
 import { useStateValue } from "../state";
+import EntryComponent from "./EntryComponent";
 
 const IndividualPatientPage = ({ patientId }: { patientId: string | undefined }): JSX.Element => {
 
@@ -42,7 +43,7 @@ const IndividualPatientPage = ({ patientId }: { patientId: string | undefined })
 
           return (
             <div key={e.id}>
-              <p>{e.date}: <i>{e.description}</i></p>
+              {/* <p>{e.date}: <i>{e.description}</i></p>
               <ul>
                 {e.diagnosisCodes
                 ? e.diagnosisCodes.map((code, index) => {
@@ -54,7 +55,8 @@ const IndividualPatientPage = ({ patientId }: { patientId: string | undefined })
                 })
                 : null
               }
-              </ul>
+              </ul> */}
+              <EntryComponent entry={e} diagnoses={diagnoses} />
             </div>
           );
         })}
