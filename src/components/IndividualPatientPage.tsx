@@ -6,7 +6,7 @@ import { useStateValue } from "../state";
 
 const IndividualPatientPage = ({ patientId }: { patientId: string | undefined }): JSX.Element => {
 
-  const [, dispatch] = useStateValue();
+  const [{ diagnoses }, dispatch] = useStateValue();
   const [patient, setPatient] = useState<Patient | null>(null);
 
   if (!patientId) return <></>;
@@ -48,7 +48,7 @@ const IndividualPatientPage = ({ patientId }: { patientId: string | undefined })
                 ? e.diagnosisCodes.map((code, index) => {
                   return(
                     <li key={index}>
-                      {code}
+                      {code}: {diagnoses[code]}
                     </li>
                   );
                 })
