@@ -4,11 +4,49 @@ import { useEffect, useState } from 'react';
 import { apiBaseUrl } from "../constants";
 import { useStateValue } from "../state";
 import EntryComponent from "./EntryComponent";
+import { EntryFormValues } from "../AddEntryModal/AddEntryForm";
+import AddEntryModal from "../AddEntryModal";
+import { useParams } from "react-router-dom";
+import { Button } from "@material-ui/core";
+import React from 'react';
 
 const IndividualPatientPage = ({ patientId }: { patientId: string | undefined }): JSX.Element => {
 
   const [{ diagnoses }, dispatch] = useStateValue();
   const [patient, setPatient] = useState<Patient | null>(null);
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<string>();
+
+  const openModal = (): void => setModalOpen(true);
+
+  const closeModal = (): void => {
+    setModalOpen(false);
+    setError(undefined);
+  };
+
+  const { id } = useParams();
+
+  if (!id) return <>
+  </>;
+
+  const submitNewEntry = async (values: EntryFormValues) => {
+    try {
+      const { data: newPatient } = await axios.post<Patient>(
+        `${apiBaseUrl}/patients/${id}/entries`,
+        values
+      );
+      dispatch({ type: "ADD_PATIENT", payload: newPatient });
+      closeModal();
+    } catch (e: unknown) {
+      if (axios.isAxiosError(e)) {
+        console.error(e?.response?.data || "Unrecognized axios error");
+        setError(String(e?.response?.data?.error) || "Unrecognized axios error");
+      } else {
+        console.error("Unknown error", e);
+        setError("Unknown error");
+      }
+    }
+  };
 
   if (!patientId) return <></>;
 
@@ -30,6 +68,9 @@ const IndividualPatientPage = ({ patientId }: { patientId: string | undefined })
 
   if(!patient) return <></>;
 
+
+  
+
   return (
     <div>
       <h2>{patient.name}</h2>
@@ -43,24 +84,20 @@ const IndividualPatientPage = ({ patientId }: { patientId: string | undefined })
 
           return (
             <div key={e.id}>
-              {/* <p>{e.date}: <i>{e.description}</i></p>
-              <ul>
-                {e.diagnosisCodes
-                ? e.diagnosisCodes.map((code, index) => {
-                  return(
-                    <li key={index}>
-                      {code}: {diagnoses[code]}
-                    </li>
-                  );
-                })
-                : null
-              }
-              </ul> */}
               <EntryComponent entry={e} diagnoses={diagnoses} />
             </div>
           );
         })}
       </div>
+      <AddEntryModal
+        modalOpen={modalOpen}
+        onSubmit={submitNewEntry}
+        error={error}
+        onClose={closeModal}
+      />
+      <Button variant="contained" onClick={() => openModal()}>
+        Add New Entry
+      </Button>
 
     </div>
   );

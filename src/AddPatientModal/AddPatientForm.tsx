@@ -23,6 +23,9 @@ const genderOptions: GenderOption[] = [
 ];
 
 export const AddPatientForm = ({ onSubmit, onCancel }: Props) => {
+
+  
+
   return (
     <Formik
       initialValues={{

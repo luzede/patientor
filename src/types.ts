@@ -57,6 +57,12 @@ interface OccupationalHealthcareEntry extends BaseEntry{
   employerName: string,
 }
 
+export enum Type  {
+  HealthCheck = "HealthCheck",
+  Hospital = "Hospital",
+  OccupationalHealthcare = "OccupationalHealthcare"
+}
+
 export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry

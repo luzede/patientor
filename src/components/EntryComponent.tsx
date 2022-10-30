@@ -25,7 +25,6 @@ const EntryComponent = ({ entry, diagnoses }: { entry: Entry, diagnoses: { [code
         <p><i>{entry.description}</i></p>
         <p>Diagnosed by {entry.specialist}</p>
         <ul>
-          <li>
             {entry.diagnosisCodes
             ? entry.diagnosisCodes.map((code, index) => {
               return(
@@ -36,7 +35,6 @@ const EntryComponent = ({ entry, diagnoses }: { entry: Entry, diagnoses: { [code
                 })
             : null
             }
-          </li>
         </ul>
       </div>;
     case "OccupationalHealthcare":
@@ -45,7 +43,6 @@ const EntryComponent = ({ entry, diagnoses }: { entry: Entry, diagnoses: { [code
         <p><i>{entry.description}</i></p>
         <p>Diagnosed by {entry.specialist}</p>
         <ul>
-          <li>
             {entry.diagnosisCodes
             ? entry.diagnosisCodes.map((code, index) => {
               return(
@@ -56,7 +53,6 @@ const EntryComponent = ({ entry, diagnoses }: { entry: Entry, diagnoses: { [code
                 })
             : null
             }
-          </li>
         </ul>
       </div>;
     case "Hospital":
@@ -65,7 +61,6 @@ const EntryComponent = ({ entry, diagnoses }: { entry: Entry, diagnoses: { [code
         <p><i>{entry.description}</i></p>
         <p>Diagnosed by {entry.specialist}</p>
         <ul>
-          <li>
             {entry.diagnosisCodes
             ? entry.diagnosisCodes.map((code, index) => {
               return(
@@ -76,7 +71,6 @@ const EntryComponent = ({ entry, diagnoses }: { entry: Entry, diagnoses: { [code
                 })
             : null
             }
-          </li>
         </ul>
       </div>;
     default:
